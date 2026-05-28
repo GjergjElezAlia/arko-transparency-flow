@@ -11,8 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TransparencyRouteImport } from './routes/transparency'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuditorRouteImport } from './routes/auditor'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuditorReportsRouteImport } from './routes/auditor.reports'
+import { Route as AuditorOverviewRouteImport } from './routes/auditor.overview'
+import { Route as AuditorAuditTrailRouteImport } from './routes/auditor.audit-trail'
+import { Route as AuditorAlertsRouteImport } from './routes/auditor.alerts'
 
 const TransparencyRoute = TransparencyRouteImport.update({
   id: '/transparency',
@@ -22,6 +27,11 @@ const TransparencyRoute = TransparencyRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditorRoute = AuditorRouteImport.update({
+  id: '/auditor',
+  path: '/auditor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -34,37 +44,101 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuditorReportsRoute = AuditorReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuditorRoute,
+} as any)
+const AuditorOverviewRoute = AuditorOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AuditorRoute,
+} as any)
+const AuditorAuditTrailRoute = AuditorAuditTrailRouteImport.update({
+  id: '/audit-trail',
+  path: '/audit-trail',
+  getParentRoute: () => AuditorRoute,
+} as any)
+const AuditorAlertsRoute = AuditorAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => AuditorRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auditor': typeof AuditorRouteWithChildren
   '/login': typeof LoginRoute
   '/transparency': typeof TransparencyRoute
+  '/auditor/alerts': typeof AuditorAlertsRoute
+  '/auditor/audit-trail': typeof AuditorAuditTrailRoute
+  '/auditor/overview': typeof AuditorOverviewRoute
+  '/auditor/reports': typeof AuditorReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auditor': typeof AuditorRouteWithChildren
   '/login': typeof LoginRoute
   '/transparency': typeof TransparencyRoute
+  '/auditor/alerts': typeof AuditorAlertsRoute
+  '/auditor/audit-trail': typeof AuditorAuditTrailRoute
+  '/auditor/overview': typeof AuditorOverviewRoute
+  '/auditor/reports': typeof AuditorReportsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auditor': typeof AuditorRouteWithChildren
   '/login': typeof LoginRoute
   '/transparency': typeof TransparencyRoute
+  '/auditor/alerts': typeof AuditorAlertsRoute
+  '/auditor/audit-trail': typeof AuditorAuditTrailRoute
+  '/auditor/overview': typeof AuditorOverviewRoute
+  '/auditor/reports': typeof AuditorReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/transparency'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auditor'
+    | '/login'
+    | '/transparency'
+    | '/auditor/alerts'
+    | '/auditor/audit-trail'
+    | '/auditor/overview'
+    | '/auditor/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/transparency'
-  id: '__root__' | '/' | '/about' | '/login' | '/transparency'
+  to:
+    | '/'
+    | '/about'
+    | '/auditor'
+    | '/login'
+    | '/transparency'
+    | '/auditor/alerts'
+    | '/auditor/audit-trail'
+    | '/auditor/overview'
+    | '/auditor/reports'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auditor'
+    | '/login'
+    | '/transparency'
+    | '/auditor/alerts'
+    | '/auditor/audit-trail'
+    | '/auditor/overview'
+    | '/auditor/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuditorRoute: typeof AuditorRouteWithChildren
   LoginRoute: typeof LoginRoute
   TransparencyRoute: typeof TransparencyRoute
 }
@@ -85,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auditor': {
+      id: '/auditor'
+      path: '/auditor'
+      fullPath: '/auditor'
+      preLoaderRoute: typeof AuditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -99,12 +180,58 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auditor/reports': {
+      id: '/auditor/reports'
+      path: '/reports'
+      fullPath: '/auditor/reports'
+      preLoaderRoute: typeof AuditorReportsRouteImport
+      parentRoute: typeof AuditorRoute
+    }
+    '/auditor/overview': {
+      id: '/auditor/overview'
+      path: '/overview'
+      fullPath: '/auditor/overview'
+      preLoaderRoute: typeof AuditorOverviewRouteImport
+      parentRoute: typeof AuditorRoute
+    }
+    '/auditor/audit-trail': {
+      id: '/auditor/audit-trail'
+      path: '/audit-trail'
+      fullPath: '/auditor/audit-trail'
+      preLoaderRoute: typeof AuditorAuditTrailRouteImport
+      parentRoute: typeof AuditorRoute
+    }
+    '/auditor/alerts': {
+      id: '/auditor/alerts'
+      path: '/alerts'
+      fullPath: '/auditor/alerts'
+      preLoaderRoute: typeof AuditorAlertsRouteImport
+      parentRoute: typeof AuditorRoute
+    }
   }
 }
+
+interface AuditorRouteChildren {
+  AuditorAlertsRoute: typeof AuditorAlertsRoute
+  AuditorAuditTrailRoute: typeof AuditorAuditTrailRoute
+  AuditorOverviewRoute: typeof AuditorOverviewRoute
+  AuditorReportsRoute: typeof AuditorReportsRoute
+}
+
+const AuditorRouteChildren: AuditorRouteChildren = {
+  AuditorAlertsRoute: AuditorAlertsRoute,
+  AuditorAuditTrailRoute: AuditorAuditTrailRoute,
+  AuditorOverviewRoute: AuditorOverviewRoute,
+  AuditorReportsRoute: AuditorReportsRoute,
+}
+
+const AuditorRouteWithChildren =
+  AuditorRoute._addFileChildren(AuditorRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuditorRoute: AuditorRouteWithChildren,
   LoginRoute: LoginRoute,
   TransparencyRoute: TransparencyRoute,
 }
