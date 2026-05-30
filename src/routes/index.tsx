@@ -18,7 +18,7 @@ function Index() {
 
   return (
     <MobileLayout transparentHeader>
-      <section className="relative -mt-14 pt-14 text-primary-foreground overflow-hidden">
+      <section className="relative isolate -mt-14 pt-14 text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
         <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-[var(--gold)]/15 blur-3xl -z-10" />
         <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-white/5 blur-3xl -z-10" />
