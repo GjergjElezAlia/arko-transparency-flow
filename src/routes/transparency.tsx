@@ -37,7 +37,7 @@ function Page() {
 
   return (
     <MobileLayout transparentHeader title="Të Dhëna">
-      <section className="relative -mt-14 pt-14 text-primary-foreground overflow-hidden">
+      <section className="relative isolate -mt-14 pt-14 text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
         <div className="absolute -top-16 -right-12 h-56 w-56 rounded-full bg-[var(--gold)]/15 blur-3xl -z-10" />
         <div className="px-5 pt-8 pb-14 animate-[fade-up_0.5s_ease-out]">
