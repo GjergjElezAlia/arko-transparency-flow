@@ -9,8 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TransparencyRouteImport } from './routes/transparency'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuditorRouteImport } from './routes/auditor'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,16 +17,6 @@ import { Route as AuditorOverviewRouteImport } from './routes/auditor.overview'
 import { Route as AuditorAuditTrailRouteImport } from './routes/auditor.audit-trail'
 import { Route as AuditorAlertsRouteImport } from './routes/auditor.alerts'
 
-const TransparencyRoute = TransparencyRouteImport.update({
-  id: '/transparency',
-  path: '/transparency',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuditorRoute = AuditorRouteImport.update({
   id: '/auditor',
   path: '/auditor',
@@ -69,8 +57,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
-  '/login': typeof LoginRoute
-  '/transparency': typeof TransparencyRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -80,8 +66,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
-  '/login': typeof LoginRoute
-  '/transparency': typeof TransparencyRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -92,8 +76,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
-  '/login': typeof LoginRoute
-  '/transparency': typeof TransparencyRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -105,8 +87,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
-    | '/login'
-    | '/transparency'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -116,8 +96,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
-    | '/login'
-    | '/transparency'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -127,8 +105,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
-    | '/login'
-    | '/transparency'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -139,26 +115,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AuditorRoute: typeof AuditorRouteWithChildren
-  LoginRoute: typeof LoginRoute
-  TransparencyRoute: typeof TransparencyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/transparency': {
-      id: '/transparency'
-      path: '/transparency'
-      fullPath: '/transparency'
-      preLoaderRoute: typeof TransparencyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auditor': {
       id: '/auditor'
       path: '/auditor'
@@ -232,9 +192,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AuditorRoute: AuditorRouteWithChildren,
-  LoginRoute: LoginRoute,
-  TransparencyRoute: TransparencyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
