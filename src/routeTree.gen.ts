@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuditorRouteImport } from './routes/auditor'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as AuditorOverviewRouteImport } from './routes/auditor.overview'
 import { Route as AuditorAuditTrailRouteImport } from './routes/auditor.audit-trail'
 import { Route as AuditorAlertsRouteImport } from './routes/auditor.alerts'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuditorRoute = AuditorRouteImport.update({
   id: '/auditor',
   path: '/auditor',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
+  '/login': typeof LoginRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
+  '/login': typeof LoginRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auditor': typeof AuditorRouteWithChildren
+  '/login': typeof LoginRoute
   '/auditor/alerts': typeof AuditorAlertsRoute
   '/auditor/audit-trail': typeof AuditorAuditTrailRoute
   '/auditor/overview': typeof AuditorOverviewRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
+    | '/login'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
+    | '/login'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auditor'
+    | '/login'
     | '/auditor/alerts'
     | '/auditor/audit-trail'
     | '/auditor/overview'
@@ -115,10 +127,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AuditorRoute: typeof AuditorRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auditor': {
       id: '/auditor'
       path: '/auditor'
@@ -192,6 +212,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AuditorRoute: AuditorRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
